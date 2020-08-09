@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Image, Text} from 'react-native';
-import {styles} from '../../styles/cardStyles';
+
+import {styles} from '../../styles/components/cardStyles';
 
 const Drinks = (props) => {
   return (

@@ -16,7 +16,7 @@ export const getDrinkCategories = () => {
         isSelected: true,
       };
     });
-    console.log('newData categories', newData);
+
     dispatch({
       type: types.GET_DRINK_CATEGORIES,
       payload: newData,
@@ -26,26 +26,32 @@ export const getDrinkCategories = () => {
 
 export const getNextDrinks = () => {
   return async (dispatch, getState) => {
-    console.log('getState', getState());
-    // debugger;
-    const {lastLoadedCategory, drinkCategories} = getState().drinks;
+    const {lastLoadedCategory, drinkCategories} = getState();
     let lastLoadedCategoryIndex = -1;
+    let nextLoadedCategoryIndex = null;
+
     if (lastLoadedCategory !== '') {
       lastLoadedCategoryIndex = drinkCategories.findIndex(
         (item) => item.name === lastLoadedCategory,
       );
     }
-    let nextLoadedCategoryIndex = null;
+
     for (let i = ++lastLoadedCategoryIndex; i < drinkCategories.length; i++) {
       if (drinkCategories[i].isSelected) {
         nextLoadedCategoryIndex = i;
         break;
       }
     }
-    const nextCategory =
-      nextLoadedCategoryIndex != null
-        ? drinkCategories[nextLoadedCategoryIndex]['name']
-        : null;
+
+    let nextCategory = null;
+    if (nextLoadedCategoryIndex != null) {
+      nextCategory = drinkCategories[nextLoadedCategoryIndex]['name'];
+    } else {
+      dispatch({
+        type: types.SET_LIST_COMPLETED,
+      });
+    }
+
     if (nextCategory) {
       const response = await fetch(
         `${drinkLinks.drinksList}?c=${nextCategory}`,

@@ -1,14 +1,14 @@
 import {StyleSheet} from 'react-native';
-import {palette} from './palette';
+import {palette} from '../palette';
 
 export const styles = StyleSheet.create({
   wrapper: {
-    width: 360,
+    width: '100%',
     height: 53,
     display: 'flex',
     justifyContent: 'center',
     alignSelf: 'center',
-    marginTop: 20,
+    marginVertical: 20,
     backgroundColor: palette.mineShaft,
   },
   buttonTitle: {

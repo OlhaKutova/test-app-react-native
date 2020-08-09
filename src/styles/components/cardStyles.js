@@ -1,14 +1,16 @@
 import {StyleSheet} from 'react-native';
-import {palette} from './palette';
+import {palette} from '../palette';
 
 export const styles = StyleSheet.create({
   cardWrapper: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 40,
   },
   cardTitle: {
+    flex: 1,
+    flexWrap: 'wrap',
     fontSize: 16,
     lineHeight: 19,
     color: palette.gray,

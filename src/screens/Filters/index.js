@@ -1,18 +1,18 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {FlatList, View} from 'react-native';
+import {FlatList} from 'react-native';
 
-import FilterCategoryItem from '../../components/FilterCategoryItem';
-import ApplyFiltersButton from '../../components/ApplyFiltersButton';
 import {
   applyCategoryFilters,
   getNextDrinks,
-} from '../../redux/actionCreators/drinksActions';
-import {styles} from '../../styles/filterStyles';
+} from '../../redux/actionCreators/index';
+import FilterCategoryItem from '../../components/FilterCategoryItem';
+import CustomButton from '../../components/CustomButton';
+import {styles} from '../../styles/screens/filtersStyles';
 
 const Filters = ({navigation}) => {
   const dispatch = useDispatch();
-  const drinkCategories = useSelector((state) => state.drinks.drinkCategories);
+  const drinkCategories = useSelector((state) => state.drinkCategories);
   const [filterList, setFilterList] = useState(drinkCategories || []);
 
   const setToggleCheckBox = (name, isSelected) => {
@@ -24,35 +24,23 @@ const Filters = ({navigation}) => {
     });
   };
 
-  useEffect(() => {
-    console.log('filterList', filterList);
-    console.log('drinkCategories', drinkCategories);
-  });
-
   const applyFilters = () => {
     dispatch(applyCategoryFilters(filterList));
     dispatch(getNextDrinks());
     navigation.navigate('Drinks');
   };
 
-  const renderFooter = () => {
-    return (
-      <View>
-        <ApplyFiltersButton applyFilters={applyFilters} />
-      </View>
-    );
-  };
-
   return (
     <FlatList
       data={filterList}
-      keyExtractor={(item) => item.idDrink}
+      keyExtractor={(item) => item.name}
       renderItem={({item}) => (
         <FilterCategoryItem item={item} setToggleCheckBox={setToggleCheckBox} />
       )}
       contentContainerStyle={styles.container}
-      ListFooterComponent={renderFooter}
-      //ListEmptyComponent={renderEmpty}
+      ListFooterComponent={() => (
+        <CustomButton title="Apply" clickAction={applyFilters} />
+      )}
     />
   );
 };

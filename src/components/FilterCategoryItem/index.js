@@ -1,8 +1,8 @@
 import React from 'react';
-import {TouchableWithoutFeedback, View, Text} from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
+import {TouchableWithoutFeedback, View, Text, Image} from 'react-native';
+import CheckBox from 'react-native-check-box';
 
-import {styles} from '../../styles/filterItemStyles';
+import {styles} from '../../styles/components/filterItemStyles';
 
 const FilterCategoryItem = (props) => {
   const {
@@ -15,11 +15,20 @@ const FilterCategoryItem = (props) => {
       <View style={styles.container}>
         <Text style={styles.title}>{name}</Text>
         <CheckBox
-          disabled={false}
-          value={isSelected}
-          tintColor="transparent"
-          onTintColor="transparent"
-          onCheckColor={'black'}
+          isChecked={isSelected}
+          checkedImage={
+            <Image
+              source={require('../../../assets/images/checkbox.png')}
+              style={styles.img}
+            />
+          }
+          unCheckedImage={
+            <Image
+              source={require('../../../assets/images/unchecked.png')}
+              style={styles.unchecked}
+            />
+          }
+          onClick={() => setToggleCheckBox(name, !isSelected)}
         />
       </View>
     </TouchableWithoutFeedback>

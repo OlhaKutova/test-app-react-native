@@ -1,32 +1,32 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {View, Text, Button, ActivityIndicator} from 'react-native';
+import {View, Text} from 'react-native';
 
-import {getDrinkCategories} from '../../redux/actionCreators/drinksActions';
-import {styles} from '../../styles/homeStyles';
+import {getDrinkCategories} from '../../redux/actionCreators/index';
+import ImageAnimated from '../../components/ImageAnimated';
+import Loader from '../../components/Loader';
+import CustomButton from '../../components/CustomButton';
+import {styles} from '../../styles/screens/homeStyles';
 
 const Home = ({navigation}) => {
   const dispatch = useDispatch();
-  const drinkCategories = useSelector((state) => state.drinks.drinkCategories);
+  const drinkCategories = useSelector((state) => state.drinkCategories);
 
   useEffect(() => {
     dispatch(getDrinkCategories());
   }, [dispatch]);
 
   if (drinkCategories.length === 0) {
-    return (
-      <View style={{flex: 1}}>
-        <ActivityIndicator size="large" />
-      </View>
-    );
+    return <Loader />;
   }
 
   return (
-    <View style={{flex: 1}}>
-      <Text>Home Screen</Text>
-      <Button
-        title="Go to Drinks"
-        onPress={() => navigation.navigate('Drinks')}
+    <View style={styles.container}>
+      <Text style={styles.title}>Best Drinks</Text>
+      <ImageAnimated />
+      <CustomButton
+        title="open drink list"
+        clickAction={() => navigation.navigate('Drinks')}
       />
     </View>
   );
